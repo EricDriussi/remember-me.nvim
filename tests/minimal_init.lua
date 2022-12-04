@@ -6,6 +6,7 @@ end
 
 vim.opt.rtp:append(".")
 vim.opt.rtp:append(plenary_dir)
+vim.opt.swapfile = false
 
 vim.cmd("runtime plugin/plenary.vim")
 require("plenary.busted")

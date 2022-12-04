@@ -29,7 +29,7 @@ test-watch: ## Run given test or all tests in watch mode
 ifdef FILE_PATH
 	- @$(ONE_TEST)
 	@while true; do \
-		inotifywait -qq -e create,modify,move,delete ./; \
+		inotifywait -qq -r -e create,modify,move,delete ./; \
 		printf "\n[ . . . Re-running tests . . . ]\n"; \
 		$(ONE_TEST); \
 	done
