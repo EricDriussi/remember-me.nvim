@@ -1,11 +1,17 @@
 require("plugin.remember_me")
+local plugin = require("remember_me")
+local h = require("tests.helper")
 
 describe("plugin should", function()
+  plugin.setup({ session_store = vim.fn.getcwd() })
+
   it("create Memorize user command", function()
     assert.has_no.errors(function()
       vim.cmd("Memorize")
     end)
+    h.clear_sessions()
   end)
+
   it("create Remember user command", function()
     assert.has_no.errors(function()
       vim.cmd("Remember")
