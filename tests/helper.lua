@@ -9,7 +9,7 @@ function M.is_dir_in_path(path, dir)
 end
 
 function M.clear_sessions()
-  os.execute("find . -type f -name '*.sess.nvim' -delete")
+  os.execute("find . -type f -name '*.r.vim' -delete")
 end
 
 function M.split_path(path)

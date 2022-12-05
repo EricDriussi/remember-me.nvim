@@ -9,14 +9,14 @@ describe("validator should,", function()
       local vcs_fixture = "tests/fixtures/another_path/with/vcs/"
       vim.api.nvim_set_current_dir(vcs_fixture)
       local _, root = validate.if_in_project(project_root)
-      assert.equals("another_path", root)
+      assert.equals("another_path", string.match(root, ".*/(.*)$"))
     end)
 
     it("return false when NOT in a project", function()
       local no_vcs_fixture = "tests/fixtures/a_path/with_no/vcs/fixture"
       local _, root = validate.if_in_project(project_root)
       -- simulate behavior since it will always default to this repo's root
-      assert.equals(false, h.is_dir_in_path(no_vcs_fixture, root))
+      assert.equals(false, h.is_dir_in_path(no_vcs_fixture, string.match(root, ".*/(.*)$")))
     end)
   end)
 

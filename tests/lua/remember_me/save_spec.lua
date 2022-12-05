@@ -4,7 +4,7 @@ local module = require("remember_me.module")
 describe("save module should", function()
   local a_sess_store = "tests/fixtures/"
   local a_project_name = "something"
-  local an_extension = ".sess.nvim"
+  local an_extension = ".r.vim"
 
   describe("save a session", function()
     it("when the session store dir exists", function()

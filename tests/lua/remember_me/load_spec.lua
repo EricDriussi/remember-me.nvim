@@ -5,7 +5,7 @@ local h = require("tests.helper")
 describe("load module should", function()
   local a_sess_store = "tests/fixtures/"
   local a_project_name = "something"
-  local an_extension = ".sess.nvim"
+  local an_extension = ".r.vim"
 
   after_each(function()
     h.clear_sessions()

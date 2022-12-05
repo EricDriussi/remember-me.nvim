@@ -7,11 +7,11 @@ local M = {}
 local config = {
   ignore_ft = { "man", "gitignore", "gitcommit" },
   session_store = "~/.cache/nvim_sessions/",
-  extension = ".r.vim",
+  ext = ".r.vim",
   project_roots = { ".git", ".svn" },
   create_aucmds = true,
-  -- TODO. also use full project path as sess name
-  path_as_name = false
+  full_name = false,
+  full_name_sep = "_-_"
 }
 
 M.setup = function(args)
@@ -27,21 +27,33 @@ M.setup = function(args)
 end
 
 M.save = function()
-  local is_project, root = validate.if_in_project(config.project_roots)
+  local is_project, root_path = validate.if_in_project(config.project_roots)
   local ft_is_valid = validate.current_ft_against(config.ignore_ft)
 
   if is_project and ft_is_valid then
-    module.save(config.session_store, root, config.extension)
+    if config.full_name then
+      local full_path = root_path:gsub("/", config.full_name_sep)
+      module.save(config.session_store, full_path, config.ext)
+    else
+      local dir_name = string.match(root_path, ".*/(.*)$")
+      module.save(config.session_store, dir_name, config.ext)
+    end
   end
 end
 
 M.load = function()
-  local is_project, root = validate.if_in_project(config.project_roots)
+  local is_project, root_path = validate.if_in_project(config.project_roots)
   local ft_is_valid = validate.current_ft_against(config.ignore_ft)
   local no_args = vim.fn.argc() == 0
 
   if is_project and ft_is_valid and no_args then
-    module.load(config.session_store, root, config.extension)
+    if config.full_name then
+      local full_path = root_path:gsub("/", config.full_name_sep)
+      module.load(config.session_store, full_path, config.ext)
+    else
+      local dir_name = string.match(root_path, ".*/(.*)$")
+      module.load(config.session_store, dir_name, config.ext)
+    end
   end
 end
 

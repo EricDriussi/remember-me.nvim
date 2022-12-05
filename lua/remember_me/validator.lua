@@ -17,8 +17,7 @@ M.if_in_project = function(valid_roots)
     for _, root in ipairs(valid_roots) do
       local parent_is_root = vim.fn.globpath(parent_path, root) ~= ""
       if parent_is_root then
-        local parent_dir = string.match(parent_path, ".*/(.*)$")
-        return true, parent_dir
+        return true, parent_path
       end
     end
 
@@ -28,7 +27,7 @@ M.if_in_project = function(valid_roots)
     end
   end
 
-  return false, nil
+  return false, ""
 end
 
 return M
