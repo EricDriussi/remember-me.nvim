@@ -65,4 +65,5 @@ describe("remember_me should,", function()
       mock.revert(module)
     end)
   end)
+
 end)

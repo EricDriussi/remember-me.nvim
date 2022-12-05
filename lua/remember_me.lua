@@ -1,4 +1,5 @@
 local module = require("remember_me.module")
+local aucmds = require("remember_me.aucmds")
 local validate = require("remember_me.validator")
 
 local M = {}
@@ -8,6 +9,7 @@ local config = {
   session_store = "~/.cache/nvim_sessions/",
   extension = ".r.vim",
   project_roots = { ".git", ".svn" },
+  create_aucmds = true,
   -- TODO. also use full project path as sess name
   path_as_name = false
 }
@@ -17,7 +19,10 @@ M.setup = function(args)
     error("Setup func only accepts table as arg")
   else
     config = vim.tbl_deep_extend("force", config, args or {})
-    -- TODO. create aucmds
+    if config.create_aucmds then
+      aucmds.create_save(M.save)
+      aucmds.create_load(M.load)
+    end
   end
 end
 
