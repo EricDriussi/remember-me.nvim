@@ -21,24 +21,21 @@ M.setup = function(args)
   end
 end
 
-local function should_save(root)
-  return validate.filetype(config.ignore_ft) and root ~= nil
-end
-
 M.save = function()
-  local root = validate.project_root(config.project_roots)
-  if should_save(root) then
+  local is_project, root = validate.current_file_in_project(config.project_roots)
+  local ft_is_valid = validate.current_ft_against(config.ignore_ft)
+
+  if is_project and ft_is_valid then
     module.save(config.session_store, root, config.extension)
   end
 end
 
-local function should_load(root)
-  return validate.filetype(config.ignore_ft) and root ~= nil and vim.fn.argc() == 0
-end
-
 M.load = function()
-  local root = validate.project_root(config.project_roots)
-  if should_load(root) then
+  local is_project, root = validate.current_file_in_project(config.project_roots)
+  local ft_is_valid = validate.current_ft_against(config.ignore_ft)
+  local no_args = vim.fn.argc() == 0
+
+  if is_project and ft_is_valid and no_args then
     module.load(config.session_store, root, config.extension)
   end
 end

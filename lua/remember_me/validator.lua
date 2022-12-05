@@ -1,42 +1,40 @@
 local M = {}
 
-M.filetype = function(ignored_filetypes)
-  local ft = vim.bo.filetype
-  for _, ift in pairs(ignored_filetypes) do
-    if ift == ft then
+M.current_ft_against = function(ignored_ft)
+  for _, ign_ftp in pairs(ignored_ft) do
+    if vim.bo.filetype == ign_ftp then
       return false
     end
   end
   return true
 end
 
--- TODO. wtf is going on here?
-local function match(dir, pattern)
-  if string.sub(pattern, 1, 1) == "=" then
-    return vim.fn.fnamemodify(dir, ":t") == string.sub(pattern, 2, #pattern)
-  else
-    return vim.fn.globpath(dir, pattern) ~= ""
-  end
+local function get_parent_path(current)
+  return vim.fn.fnamemodify(current, ":h")
 end
 
-M.project_root = function(valid_roots)
-  -- TODO. refactor, possibly two funcs
-  local current = vim.api.nvim_buf_get_name(0)
-  local parent = vim.fn.fnamemodify(current, ":h") -- direct parent dir
-  -- vim.fn.getcwd() seems to get root when in git, else direct parent dir
+local function get_dir(path)
+  return string.match(path, ".*/(.*)$")
+end
 
-  while 1 do
-    for _, pattern in ipairs(valid_roots) do
-      if match(parent, pattern) then
-        return string.match(parent, ".*/(.*)$")
+M.current_file_in_project = function(valid_roots)
+  local current = vim.api.nvim_buf_get_name(0)
+  local parent_path = get_parent_path(current)
+
+  while true do
+    for _, root in ipairs(valid_roots) do
+      if vim.fn.globpath(parent_path, root) ~= "" then
+        return true, get_dir(parent_path)
       end
     end
-    current, parent = parent, vim.fn.fnamemodify(parent, ":h")
-    if parent == current then
+
+    current, parent_path = parent_path, get_parent_path(parent_path)
+    if parent_path == current then
       break
     end
   end
-  return nil
+
+  return false, nil
 end
 
 return M
