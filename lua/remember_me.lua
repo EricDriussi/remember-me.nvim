@@ -4,12 +4,12 @@ local validate = require("remember_me.validator")
 local M = {}
 
 local config = {
-  ignored_filetypes = { "man", "gitignore", "gitcommit" },
-  session_dir = "~/.cache/nvim_sessions/",
-  session_suffix = ".sess.nvim",
-  valid_roots = { ".git", ".svn" },
-  -- TODO. also use full path as sess name
-  use_full_path = false
+  ignore_ft = { "man", "gitignore", "gitcommit" },
+  session_store = "~/.cache/nvim_sessions/",
+  extension = ".sess.nvim",
+  project_roots = { ".git", ".svn" },
+  -- TODO. also use full project path as sess name
+  path_as_name = false
 }
 
 M.setup = function(args)
@@ -21,25 +21,25 @@ M.setup = function(args)
   end
 end
 
-local function should_save(root_path)
-  return validate.filetype(config.ignored_filetypes) and root_path ~= nil
+local function should_save(root)
+  return validate.filetype(config.ignore_ft) and root ~= nil
 end
 
 M.save = function()
-  local root_path = validate.project_root(config.valid_roots)
-  if should_save(root_path) then
-    module.save(root_path, config.session_dir, config.session_suffix)
+  local root = validate.project_root(config.project_roots)
+  if should_save(root) then
+    module.save(config.session_store, root, config.extension)
   end
 end
 
-local function should_load(root_path)
-  return validate.filetype(config.ignored_filetypes) and root_path ~= nil and vim.fn.argc() == 0
+local function should_load(root)
+  return validate.filetype(config.ignore_ft) and root ~= nil and vim.fn.argc() == 0
 end
 
 M.load = function()
-  local root_path = validate.project_root(config.valid_roots)
-  if should_load(root_path) then
-    module.load(root_path, config.session_dir, config.session_suffix)
+  local root = validate.project_root(config.project_roots)
+  if should_load(root) then
+    module.load(config.session_store, root, config.extension)
   end
 end
 

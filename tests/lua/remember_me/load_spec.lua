@@ -3,9 +3,9 @@ local module = require("remember_me.module")
 local h = require("tests.helper")
 
 describe("load module should", function()
-  local a_path = "tests/fixtures/"
+  local a_sess_store = "tests/fixtures/"
   local a_project_name = "something"
-  local a_suffix = ".sess.nvim"
+  local an_extension = ".sess.nvim"
 
   after_each(function()
     h.clear_sessions()
@@ -16,13 +16,13 @@ describe("load module should", function()
 
   describe("load a session", function()
     it("when a session file exists", function()
-      local session_to_load = a_path .. a_project_name .. a_suffix
-      os.execute("touch " .. session_to_load)
+      local existing_session = a_sess_store .. a_project_name .. an_extension
+      os.execute("touch " .. existing_session)
 
       local api = mock(vim.api, false)
-      module.load(a_project_name, a_path, a_suffix)
+      module.load(a_sess_store, a_project_name, an_extension)
 
-      assert.stub(api.nvim_command).was.called_with("source " .. session_to_load)
+      assert.stub(api.nvim_command).was.called_with("source " .. existing_session)
       mock.revert(api)
     end)
   end)
@@ -31,7 +31,7 @@ describe("load module should", function()
     it("when a session file does NOT exists", function()
 
       local api = mock(vim.api, false)
-      module.load(a_project_name, a_path, a_suffix)
+      module.load(a_sess_store, a_project_name, an_extension)
 
       assert.stub(api.nvim_command).was_not.called()
       mock.revert(api)

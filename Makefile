@@ -13,7 +13,7 @@ lint:   ## Linting & formatting
 	stylua .
 
 TEST_INIT := tests/minimal_init.lua
-ALL_TESTS := nvim --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedDirectory tests/ {minimal_init='$(TEST_INIT)'; timeout=500}"
+ALL_TESTS := nvim --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedDirectory tests/lua {minimal_init='$(TEST_INIT)'; timeout=500}"
 ONE_TEST := nvim --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedFile $(FILE_PATH)"
 
 .PHONY: test
