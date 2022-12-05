@@ -6,7 +6,7 @@ local M = {}
 local config = {
   ignore_ft = { "man", "gitignore", "gitcommit" },
   session_store = "~/.cache/nvim_sessions/",
-  extension = ".sess.nvim",
+  extension = ".r.vim",
   project_roots = { ".git", ".svn" },
   -- TODO. also use full project path as sess name
   path_as_name = false
@@ -22,7 +22,7 @@ M.setup = function(args)
 end
 
 M.save = function()
-  local is_project, root = validate.current_file_in_project(config.project_roots)
+  local is_project, root = validate.if_in_project(config.project_roots)
   local ft_is_valid = validate.current_ft_against(config.ignore_ft)
 
   if is_project and ft_is_valid then
@@ -31,7 +31,7 @@ M.save = function()
 end
 
 M.load = function()
-  local is_project, root = validate.current_file_in_project(config.project_roots)
+  local is_project, root = validate.if_in_project(config.project_roots)
   local ft_is_valid = validate.current_ft_against(config.ignore_ft)
   local no_args = vim.fn.argc() == 0
 

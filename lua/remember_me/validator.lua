@@ -17,9 +17,9 @@ local function get_dir(path)
   return string.match(path, ".*/(.*)$")
 end
 
-M.current_file_in_project = function(valid_roots)
-  local current = vim.api.nvim_buf_get_name(0)
-  local parent_path = get_parent_path(current)
+M.if_in_project = function(valid_roots)
+  local current = vim.fn.getcwd()
+  local parent_path = current
 
   while true do
     for _, root in ipairs(valid_roots) do
