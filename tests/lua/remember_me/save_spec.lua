@@ -1,10 +1,18 @@
 local mock = require("luassert.mock")
 local module = require("remember_me.module")
+local h = require("tests.helper")
 
 describe("save module should", function()
-  local a_sess_store = "tests/fixtures/"
+  local a_sess_store = "./tests/fixtures/"
   local a_project_name = "something"
   local an_extension = ".r.vim"
+
+  after_each(function()
+    h.clear_sessions()
+  end)
+  before_each(function()
+    h.clear_sessions()
+  end)
 
   describe("save a session", function()
     it("when the session store dir exists", function()
@@ -17,7 +25,7 @@ describe("save module should", function()
     end)
 
     it("when the session store dir does NOT exists", function()
-      local new_path = a_sess_store .. "new_path/"
+      local new_path = a_sess_store .. "./new_path/"
       local api = mock(vim.api, false)
       module.save(new_path, a_project_name, an_extension)
 

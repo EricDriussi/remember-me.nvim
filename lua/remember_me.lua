@@ -6,7 +6,6 @@ local M = {}
 
 local config = {
   ignore_ft = { "man", "gitignore", "gitcommit" },
-  -- TODO. should handle relative paths gracefully from project root
   session_store = "~/.cache/remember-me/",
   ext = ".r.vim",
   project_roots = { ".git", ".svn" },

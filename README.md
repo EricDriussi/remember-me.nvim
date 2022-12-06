@@ -69,9 +69,7 @@ This is **not** defined at the `aucmd` level, so it is taken into account even i
 
 Where to store and look for sessions. Only affects the sessions managed by this plugin.
 
-<!--TODO. update-->
-
-It takes both full and relative paths, although relative paths are expanded from wherever nvim was launched.
+It takes both full and relative paths, although relative paths are expanded from nvim's cwd.
 
 - **project_roots**
 
