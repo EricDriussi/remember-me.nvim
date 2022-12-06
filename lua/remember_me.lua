@@ -6,10 +6,10 @@ local M = {}
 
 local config = {
   ignore_ft = { "man", "gitignore", "gitcommit" },
-  session_store = "~/.cache/nvim_sessions/",
+  -- TODO. should handle relative paths gracefully from project root
+  session_store = "~/.cache/remember-me/",
   ext = ".r.vim",
   project_roots = { ".git", ".svn" },
-  create_aucmds = true,
   full_name = false,
   full_name_sep = "_-_"
 }
@@ -19,10 +19,8 @@ M.setup = function(args)
     error("Setup func only accepts table as arg")
   else
     config = vim.tbl_deep_extend("force", config, args or {})
-    if config.create_aucmds then
-      aucmds.create_save(M.save)
-      aucmds.create_load(M.load)
-    end
+    aucmds.create_save(M.save)
+    aucmds.create_load(M.load)
   end
 end
 
