@@ -30,4 +30,21 @@ M.if_in_project = function(valid_roots)
   return false, ""
 end
 
+local function _fnv1a(s)
+  local bit = require("bit")
+  local prime = 1099511628211
+  local hash = 14695981039346656037
+  for i = 1, #s do
+    hash = bit.bxor(hash, s:byte(i))
+    hash = hash * prime
+  end
+  return hash
+end
+
+M.hashed_session_name = function(path)
+  local dir_name = string.match(path, ".*/(.*)$")
+  local hash = _fnv1a(path)
+  return string.format("%s__%u", dir_name, hash)
+end
+
 return M

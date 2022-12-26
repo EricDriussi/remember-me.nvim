@@ -25,7 +25,7 @@ describe("save module should", function()
     end)
 
     it("when the session store dir does NOT exists", function()
-      local new_path = a_sess_store .. "./new_path/"
+      local new_path = a_sess_store .. "new_path/"
       local api = mock(vim.api, false)
       module.save(new_path, a_project_name, an_extension)
 
