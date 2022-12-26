@@ -1,6 +1,5 @@
 local plugin = require("remember_me")
 local mock = require("luassert.mock")
-local h = require("tests.helper")
 
 describe("default setup includes", function()
   it("save and load aucmds", function()
@@ -12,6 +11,5 @@ describe("default setup includes", function()
     assert.stub(aucmds.create_load).was.called()
 
     mock.revert(aucmds)
-    h.clear_sessions()
   end)
 end)
