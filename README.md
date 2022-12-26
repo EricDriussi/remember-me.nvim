@@ -79,7 +79,7 @@ So to **add** a `filetype` to ignore, use `ignore_ft = { "man", "gitignore", "gi
 File types for which nothing will happen, even if within a project.
 No saving nor loading sessions.
 
-This is **not** defined at the `aucmd` level, so it is taken into account even if calling the user commands or the `lua` functions directly.
+You might want to add plugin-specific ft in case of conflict (`neo-tree`, `NvimTree`, etc.).
 
 - **session_store**
 
