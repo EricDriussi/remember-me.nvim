@@ -60,9 +60,8 @@ You can pass a table to `setup()` with your desired config, as explained below.
 ```lua
 {
   ignore_ft = { "man", "gitignore", "gitcommit" },
-  session_store = "~/.cache/remember-me/",
+  session_store = "~/.cache/remember-me",
   project_roots = { ".git", ".svn" },
-  full_name = false,
 }
 ```
 
@@ -94,13 +93,3 @@ What defines a project.
 The plugin will search up the directory tree until it finds one of these markers and consider the directory in which it found it as the project's root.
 
 Can take files or directories, but can't handle globs or patterns.
-
-- **full_name**
-
-Whether to use the full path of the project as it's session name.
-
-By default, it saves the session with the project's root directory as the session name.
-
-This is probably fine, but it will break if you have a bunch of projects with the same name under different paths, i.e. `/here/project/` and `/there/project/` will both point to the same session.
-
-Set this to `true` if that's your case.
