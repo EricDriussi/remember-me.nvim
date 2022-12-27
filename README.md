@@ -39,7 +39,7 @@ If that's not enough and/or you wish to extend the behavior, you can save and lo
 
 ```
 :Memorize
-:Recall
+:Remember
 ```
 
 Or by calling these functions directly from you `lua` config:
