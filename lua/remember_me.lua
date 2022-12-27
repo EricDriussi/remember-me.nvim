@@ -5,20 +5,23 @@ require("remember_me.session")
 
 local M = {}
 
+local function merge_user_config(conf)
+  setmetatable(config, { __index = vim.tbl_extend("force", config.defaults, conf) })
+  if string.sub(config.session_store, -1) ~= "/" then
+    config.session_store = config.session_store .. "/"
+  end
+end
+
 M.setup = function(args)
   if args ~= nil and type(args) ~= "table" then
     error("Setup func only accepts table as arg")
     return
   end
-  setmetatable(config, { __index = vim.tbl_extend("force", config.defaults, args) })
-  if string.sub(config.session_store, -1) ~= "/" then
-    config.session_store = config.session_store .. "/"
-  end
-  aucmds.create_save(M.save)
-  aucmds.create_load(M.load)
+  merge_user_config(args)
+  aucmds.create(M.memorize, M.recall)
 end
 
-M.save = function()
+M.memorize = function()
   local project = Project.new()
 
   if project:is_valid() then
@@ -27,7 +30,7 @@ M.save = function()
   end
 end
 
-M.load = function()
+M.recall = function()
   local project = Project.new()
   local no_args = vim.fn.argc() == 0
 

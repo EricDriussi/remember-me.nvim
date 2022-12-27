@@ -2,9 +2,9 @@ local config = require("remember_me.config")
 Project = {}
 Project.__index = Project
 
-local function _has_valid_ftp()
-  for _, ign_ftp in pairs(config.ignore_ft) do
-    if vim.bo.filetype == ign_ftp then
+local function file_is_valid_ft()
+  for _, ign_ft in pairs(config.ignore_ft) do
+    if vim.bo.filetype == ign_ft then
       return false
     end
   end
@@ -41,7 +41,7 @@ function Project.new()
 end
 
 function Project:is_valid()
-  return _has_valid_ftp() and self.has_root
+  return file_is_valid_ft() and self.has_root
 end
 
 return Project

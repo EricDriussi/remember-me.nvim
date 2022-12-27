@@ -7,7 +7,7 @@ describe("project should", function()
   end)
   describe("be valid if", function()
 
-    it("ftp is not in ignored list AND a project root is present", function()
+    it("ft is not in ignored list AND a project root is present", function()
       local valid_file = "tests/fixtures/another_path/with/vcs/valid_ftp.md"
       vim.cmd(":vs " .. valid_file)
       local project = Project.new()
@@ -17,7 +17,7 @@ describe("project should", function()
   end)
 
   describe("be invalid if", function()
-    it("ftp is to be ignored", function()
+    it("ft is to be ignored", function()
       local file_to_ignore = "tests/fixtures/another_path/with/vcs/.gitignore"
       vim.cmd(":vs " .. file_to_ignore)
       local project = Project.new()

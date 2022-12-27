@@ -45,8 +45,8 @@ If that's not enough and/or you wish to extend the behavior, you can save and lo
 Or by calling these functions directly from you `lua` config:
 
 ```lua
-require("remember_me").save()
-require("remember_me").load()
+require("remember_me").memorize()
+require("remember_me").recall()
 ```
 
 ## Setup
