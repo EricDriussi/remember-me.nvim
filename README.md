@@ -60,12 +60,12 @@ You can pass a table to `setup()` with your desired config, as explained below.
 ```lua
 {
   ignore_ft = { "man", "gitignore", "gitcommit" },
-  session_store = "~/.cache/remember-me",
+  session_store = "~/.cache/remember-me/",
   project_roots = { ".git", ".svn" },
 }
 ```
 
-Full config table can be found [here](https://github.com/EricDriussi/remember-me.nvim/blob/93e93c02f6378b584bc5cf17f02d6e63bef00b13/lua/remember_me.lua#L7).
+Full config table can be found [here](https://github.com/EricDriussi/remember-me.nvim/blob/5f3a874fb54794d324f97713d012fb328f6a10e5/lua/remember_me/config.lua#L1).
 
 ### Options
 
@@ -77,8 +77,6 @@ So to **add** a `filetype` to ignore, use `ignore_ft = { "man", "gitignore", "gi
 
 File types for which nothing will happen, even if within a project.
 No saving nor loading sessions.
-
-You might want to add plugin-specific ft in case of conflict (`neo-tree`, `NvimTree`, etc.).
 
 - **session_store**
 
