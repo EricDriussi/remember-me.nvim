@@ -22,22 +22,28 @@ end
 
 local function safely_close_trees()
   local nvim_tree_present, api = pcall(require, "nvim-tree.api")
-  if nvim_tree_present then api.tree.close() end
-  if pcall(require, "neo-tree") then vim.cmd [[Neotree action=close]] end
+  if nvim_tree_present then
+    api.tree.close()
+  end
+  if pcall(require, "neo-tree") then
+    vim.cmd([[Neotree action=close]])
+  end
 end
 
 function Session:save()
   os.execute("mkdir -p " .. self.store)
   safely_close_trees()
   local session = self.store .. self.name .. self.ext
-  vim.api.nvim_command("mksession! " .. session)
+  local mksession_cmd = vim.api.nvim_parse_cmd("mksession! " .. session, {})
+  vim.api.nvim_cmd(mksession_cmd, {})
 end
 
 function Session:load()
   local session = self.store .. self.name .. self.ext
   local session_exists = vim.fn.filereadable(vim.fn.expand(session)) == 1
   if session_exists then
-    vim.api.nvim_command("source " .. session)
+    local srouce_cmd = vim.api.nvim_parse_cmd("source " .. session, {})
+    vim.api.nvim_cmd(srouce_cmd, {})
   end
 end
 

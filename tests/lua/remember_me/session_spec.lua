@@ -18,7 +18,8 @@ describe("session should", function()
     session:save()
 
     local full_session_path = session.store .. session.name .. session.ext
-    assert.stub(api.nvim_command).was.called_with("mksession! " .. full_session_path)
+    assert.stub(api.nvim_parse_cmd).was.called_with("mksession! " .. full_session_path, {})
+    assert.stub(api.nvim_cmd).was.called()
     mock.revert(api)
     os.execute("rm -rf " .. session.store)
   end)
@@ -31,8 +32,8 @@ describe("session should", function()
 
     session:load()
 
-    assert.stub(api.nvim_command).was.called_with("source " .. existing_session)
+    assert.stub(api.nvim_parse_cmd).was.called_with("source " .. existing_session, {})
+    assert.stub(api.nvim_cmd).was.called()
     mock.revert(api)
   end)
-
 end)
