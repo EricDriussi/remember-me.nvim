@@ -3,45 +3,44 @@ Project = {}
 Project.__index = Project
 
 local function file_is_valid_ft()
-  for _, ign_ft in pairs(config.ignore_ft) do
-    if vim.bo.filetype == ign_ft then
-      return false
-    end
-  end
-  return true
+	for _, ign_ft in pairs(config.ignore_ft) do
+		if vim.bo.filetype == ign_ft then
+			return false
+		end
+	end
+	return true
 end
 
 local function root_path()
-  local current = vim.fn.getcwd()
-  local parent_path = current
+	local current = vim.fn.getcwd()
+	local parent_path = current
 
-  while true do
-    for _, root in ipairs(config.project_roots) do
-      local parent_is_root = vim.fn.globpath(parent_path, root) ~= ""
-      if parent_is_root then
-        return true, parent_path
-      end
-    end
+	while true do
+		for _, root in ipairs(config.project_roots) do
+			local parent_is_root = vim.fn.globpath(parent_path, root) ~= ""
+			if parent_is_root then
+				return true, parent_path
+			end
+		end
 
-    current, parent_path = parent_path, vim.fn.fnamemodify(parent_path, ":h")
-    if parent_path == current then
-      break
-    end
-  end
+		current, parent_path = parent_path, vim.fn.fnamemodify(parent_path, ":h")
+		if parent_path == current then
+			break
+		end
+	end
 
-  return false, ""
-
+	return false, ""
 end
 
 function Project.new()
-  local pro = setmetatable({}, Project)
-  pro.has_root, pro.path = root_path()
-  pro.name = string.match(pro.path, ".*/(.*)$")
-  return pro
+	local pro = setmetatable({}, Project)
+	pro.has_root, pro.path = root_path()
+	pro.name = string.match(pro.path, ".*/(.*)$")
+	return pro
 end
 
 function Project:is_valid()
-  return file_is_valid_ft() and self.has_root
+	return file_is_valid_ft() and self.has_root
 end
 
 return Project
