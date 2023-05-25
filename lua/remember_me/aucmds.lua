@@ -25,4 +25,8 @@ M.create = function(save_func, load_func)
 	on_close(load_func)
 end
 
+M.clear = function()
+    remember_me_group = vim.api.nvim_create_augroup("RememberMe", { clear = true })
+end
+
 return M

@@ -1,5 +1,5 @@
 local mock = require("luassert.mock")
-require("remember_me.session")
+local Session = require("remember_me.session")
 
 describe("session should", function()
 	local session = Session.new("a_name", "a_path")
@@ -36,4 +36,17 @@ describe("session should", function()
 		assert.stub(api.nvim_cmd).was.called()
 		mock.revert(api)
 	end)
+
+    it("delete if exists", function()
+        local api = mock(vim.api, false)
+        local existing_session = session.store .. session.name .. session.ext
+        os.execute("mkdir " .. session.store)
+        os.execute("touch " .. existing_session)
+
+        session:forget()
+
+        assert.stub(api.nvim_parse_cmd).was.called_with("!rm " .. existing_session, {})
+        assert.stub(api.nvim_cmd).was.called()
+        mock.revert(api)
+    end)
 end)
