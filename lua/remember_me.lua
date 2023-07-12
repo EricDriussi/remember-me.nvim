@@ -18,6 +18,7 @@ M.setup = function(args)
 		return
 	end
 	merge_user_config(args)
+	vim.opt.sessionoptions:remove("folds")
 	aucmds.create(M.memorize, M.recall)
 end
 
