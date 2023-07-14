@@ -1,13 +1,14 @@
 ---
 on: [push, pull_request]
-name: default
+name: Test
 
 jobs:
   stylua:
-    name: stylua
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - uses: JohnnyMorganz/stylua-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -18,13 +19,13 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Prepare
-        run: |
-          curl -OL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.deb
-          sudo apt install ./nvim-linux64.deb
+      - name: Download tarball
+        run: curl -OL https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz
+
+      - name: Extract tarball
+        run: tar xzvf nvim-linux64.tar.gz
 
       - name: run tests
-        run: make test
+        run: make test-ci
