@@ -14,9 +14,10 @@ lint:   ## Linting & formatting
 
 TEST_INIT := tests/minimal_init.lua
 CLEAN_SESS := find . -type f -name '*.r.vim' -delete
+NVIM_BIN := nvim
 
-ALL_TESTS := nvim --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedDirectory tests {minimal_init='$(TEST_INIT)'; timeout=500}" && $(CLEAN_SESS)
-ONE_TEST := nvim --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedFile $(FILE_PATH)" && $(CLEAN_SESS)
+ALL_TESTS = $(NVIM_BIN) --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedDirectory tests {minimal_init='$(TEST_INIT)'; timeout=500}" && $(CLEAN_SESS)
+ONE_TEST = $(NVIM_BIN) --headless --noplugin -u $(TEST_INIT) -c "PlenaryBustedFile $(FILE_PATH)" && $(CLEAN_SESS)
 
 .PHONY: test
 test: ## Run test given test or all tests
@@ -43,3 +44,8 @@ else
 		$(ALL_TESTS); \
 	done
 endif
+
+.PHONY: test-ci
+test-ci: NVIM_BIN=./nvim-linux64/bin/nvim ## Run all test in CI mode
+test-ci:
+	@$(ALL_TESTS)

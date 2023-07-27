@@ -1,7 +1,7 @@
 local aucmds = require("remember_me.aucmds")
 local config = require("remember_me.config")
-local Project = require("remember_me.project")
-local Session = require("remember_me.session")
+require("remember_me.project")
+require("remember_me.session")
 
 local M = {}
 
@@ -18,53 +18,24 @@ M.setup = function(args)
 		return
 	end
 	merge_user_config(args)
-    if config.autosave then
-        aucmds.create(M.memorize, M.recall)
-    end
+	vim.opt.sessionoptions:remove("folds")
+	aucmds.create(M.memorize, M.recall)
 end
 
-M.autosave = function(auto)
-    if auto == true or (auto == nil and config.autosave) then
-        aucmds.create(M.memorize, M.recall)
-    else
-        aucmds.clear()
-    end
-end
-
-
-M.memorize = function(auto)
-    local project = Project.new()
-
-    if project:is_valid() then
-        local session = Session.new(project.name, project.path)
-        session:save()
-
-        M.autosave(auto)
-    end
-end
-
-M.recall = function(even_if_args)
-    local should_load = (even_if_args == true) or (vim.fn.argc() == 0)
-    if not should_load then
-        return
-    end
-
-    local project = Project.new()
 	if project:is_valid() then
 		local session = Session.new(project.name, project.path)
-		session:load()
+		session:save()
 	end
 end
 
-M.forget = function(auto)
-    local project = Project.new()
+M.recall = function()
+	local project = Project.new()
+	local no_args = vim.fn.argc() == 0
 
-    if project:is_valid() then
-        local session = Session.new(project.name, project.path)
-        session:delete()
-
-        M.autosave(auto)
-    end
+	if project:is_valid() and no_args then
+		local session = Session.new(project.name, project.path)
+		session:load()
+	end
 end
 
 return M
