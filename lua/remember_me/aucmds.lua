@@ -27,7 +27,7 @@ M.create = function(save_func, load_func)
 end
 
 M.clear = function()
-    vim.api.nvim_del_augroup_by_name(augroup_name)
+    vim.api.nvim_create_augroup(augroup_name, {})
 end
 
 return M
