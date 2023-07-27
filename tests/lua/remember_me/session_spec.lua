@@ -1,5 +1,5 @@
 local mock = require("luassert.mock")
-local Session = require("remember_me.session")
+require("remember_me.session")
 
 describe("session should", function()
 	local session = Session.new("a_name", "a_path")
@@ -43,7 +43,7 @@ describe("session should", function()
         os.execute("mkdir " .. session.store)
         os.execute("touch " .. existing_session)
 
-        session:forget()
+        session:delete()
 
         assert.stub(api.nvim_parse_cmd).was.called_with("!rm " .. existing_session, {})
         assert.stub(api.nvim_cmd).was.called()

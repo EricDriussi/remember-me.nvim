@@ -1,4 +1,4 @@
-local Project = require("remember_me.project")
+require("remember_me.project")
 
 describe("project should", function()
 	after_each(function()
