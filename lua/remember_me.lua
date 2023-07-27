@@ -38,6 +38,8 @@ M.recall = function()
 	if project:is_valid() and no_args then
 		local session = Session.new(project.name, project.path)
 		session:load()
+	    aucmds.clear()
+	    aucmds.create(M.memorize, M.recall)
 	end
 end
 
