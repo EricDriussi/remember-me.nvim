@@ -6,7 +6,6 @@ config.defaults = {
 	session_store = "~/.cache/remember-me/",
 	ext = ".r.vim",
 	project_roots = { ".git", ".svn" },
-    autosave = true,
 }
 setmetatable(config, { __index = config.defaults })
 return config
