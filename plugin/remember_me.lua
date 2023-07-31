@@ -15,3 +15,9 @@ vim.api.nvim_create_user_command("Remember", function()
 end, {
 	desc = "Try to load last session",
 })
+
+vim.api.nvim_create_user_command("Forget", function()
+    require("remember_me").forget()
+end, {
+    desc = "Try to delete last session",
+})

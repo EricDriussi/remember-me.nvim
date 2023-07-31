@@ -1,5 +1,6 @@
 local new_au_cmd = vim.api.nvim_create_autocmd
-local remember_me_group = vim.api.nvim_create_augroup("RememberMe", {})
+local augroup_name = "RememberMe"
+local remember_me_group = vim.api.nvim_create_augroup(augroup_name, {})
 
 local M = {}
 
@@ -23,6 +24,10 @@ end
 M.create = function(save_func, load_func)
 	on_open(save_func)
 	on_close(load_func)
+end
+
+M.clear = function()
+    vim.api.nvim_create_augroup(augroup_name, {})
 end
 
 return M

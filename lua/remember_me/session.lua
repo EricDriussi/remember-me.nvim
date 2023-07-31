@@ -47,4 +47,13 @@ function Session:load()
 	end
 end
 
+function Session:delete()
+    local session = self.store .. self.name .. self.ext
+    local session_exists = vim.fn.filereadable(vim.fn.expand(session)) == 1
+    if session_exists then
+        local rm_cmd = vim.api.nvim_parse_cmd("!rm " .. session, {})
+        vim.api.nvim_cmd(rm_cmd, {})
+    end
+end
+
 return Session

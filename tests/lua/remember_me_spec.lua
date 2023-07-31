@@ -38,4 +38,22 @@ describe("in a valid project, remember_me should", function()
 		mock.revert(session_mock.save)
 		mock.revert(session_mock.load)
 	end)
+
+	it("save and forget given a valid ft", function()
+		vim.api.nvim_set_current_dir(vcs_path)
+		vim.cmd(":vs " .. vcs_path .. "fixture")
+
+		local session_mock = mock(require("remember_me.session"), false)
+		plugin.memorize()
+		plugin.forget()
+		plugin.recall()
+
+		assert.stub(session_mock.save).was.called()
+		assert.stub(session_mock.forget).was.called()
+		assert.stub(session_mock.load).was_not.called()
+		mock.revert(session_mock.save)
+		mock.revert(session_mock.forget)
+		mock.revert(session_mock.load)
+	end)
+
 end)

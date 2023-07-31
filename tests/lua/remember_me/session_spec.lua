@@ -36,4 +36,17 @@ describe("session should", function()
 		assert.stub(api.nvim_cmd).was.called()
 		mock.revert(api)
 	end)
+
+    it("delete if exists", function()
+        local api = mock(vim.api, false)
+        local existing_session = session.store .. session.name .. session.ext
+        os.execute("mkdir " .. session.store)
+        os.execute("touch " .. existing_session)
+
+        session:delete()
+
+        assert.stub(api.nvim_parse_cmd).was.called_with("!rm " .. existing_session, {})
+        assert.stub(api.nvim_cmd).was.called()
+        mock.revert(api)
+    end)
 end)
