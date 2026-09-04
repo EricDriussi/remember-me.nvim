@@ -1,4 +1,10 @@
+if vim.fn.has('ttyin') == 0 then
+    -- Don't load if in a pipe
+    return
+end
+
 if vim.g.loaded_remember_me == 1 then
+    -- Don't re-load
 	return
 end
 vim.g.loaded_remember_me = 1
